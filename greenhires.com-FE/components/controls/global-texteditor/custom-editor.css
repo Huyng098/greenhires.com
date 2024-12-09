@@ -1,0 +1,24 @@
+.input-color {
+    height: 10px;
+    width: 18px;
+    background-color: white;
+}
+.input-color::-webkit-color-swatch {
+    border: none;
+}
+
+.input-color-container {
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    background-color: white;
+    border: 1px solid #D4D9E2;
+}
+
+.tiptap {
+    .problem {
+      background: #fdd;
+      border-bottom: 1px solid #f22;
+      margin-bottom: -1px;
+    }
+  }

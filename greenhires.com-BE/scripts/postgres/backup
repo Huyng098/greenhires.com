@@ -1,0 +1,15 @@
+#!/bin/sh -e
+# backup: pg_dump -Fc -U postgres -h localhost -p 5435 humantree | gzip > humantree.dump.gz
+# restore: gunzip -c humantree.dump.gz | pg_restore -U postgres -h localhost -p 5435 -d humantree
+echo "Backup process started."
+# Save the current date in YYYY-MM-DD format to a variable
+current_datetime=$(date +%Y-%m-%d-%H%M%S)
+
+backup_directory="/backups"
+backup_filename="${backup_directory}/backup-${current_datetime}.dump.gz"
+
+# Run pg_dump and compress its output, then save to /backups with the current date in the filename
+PGPASSWORD="$POSTGRES_PASSWORD" pg_dump -Fc -U "$POSTGRES_USER" -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" "$POSTGRES_DB" | gzip > "$backup_filename"
+
+
+echo "Backup has been created and saved to ${backup_filename}"

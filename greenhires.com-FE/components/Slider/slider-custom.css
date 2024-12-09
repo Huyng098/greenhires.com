@@ -1,0 +1,15 @@
+
+.slick-slide > div {
+    margin: 0 15px;
+}
+  
+.slick-dots li {
+    display: inline-block;
+    margin: 0 10px; /* Adjust the margin to control the space between dots */
+}
+.slick-dots li button:before {
+    font-size: 10px;
+}
+.slick-dots li.slick-active button:before {
+    color: #2F566B;
+}

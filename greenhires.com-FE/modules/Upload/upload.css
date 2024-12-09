@@ -1,0 +1,15 @@
+.filepond--root .filepond--drop-label {
+    min-height: 200px;
+    max-height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+.filepond--drop-label{
+    background-color: white;
+    border: 2px dashed #073776;
+    border-radius: 10px;
+
+}
+.filepond--list{
+    margin-top: 10px !important;
+}

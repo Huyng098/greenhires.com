@@ -1,0 +1,60 @@
+services:
+  humantree_app:
+    container_name: humantree_app
+    image: humantree_image
+    restart: always
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/src
+    ports:
+      - "8955:8955"
+    depends_on:
+      - humantree_db
+      - humantree_redis
+
+  humantree_db:
+    container_name: humantree_db
+    hostname: humantree_db
+    restart: always
+    image: paradedb/paradedb:16-v0.9.1
+    env_file:
+      - .env.production
+    volumes:
+      - humantree_pg_data:/var/lib/postgresql/data/
+      - humantree_pg_data_backups:/backups
+      - ./scripts/postgres:/scripts
+    ports:
+      - "65432:5432"
+
+  humantree_redis:
+    image: redis:6.2-alpine
+    hostname: redis
+    restart: always
+    container_name: humantree_redis
+    command:
+      - 'redis-server'
+      - '--requirepass myStrongPassword'
+    volumes:
+      - redis_cache:/data
+    ports:
+      - 36379:6379
+
+volumes:
+  humantree_pg_data:
+    driver: "local"
+  humantree_pg_data_backups:
+    driver: "local"
+    driver_opts:
+      type: "none"
+      device: "./backups"
+      o: "bind"
+  redis_cache:
+    driver: "local"
+
+networks:
+  default:
+    name: humantree_main

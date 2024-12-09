@@ -1,0 +1,47 @@
+services:
+  humantree_db:
+    container_name: humantree_db
+    hostname: humantree_db
+    restart: always
+    # image: paradedb/paradedb:latest
+    image: paradedb/paradedb:0.9.1
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=humantree
+      - PARADEDB_TELEMETRY=true
+    volumes:
+      - humantree_pg_data:/bitnami/postgresql
+      - humantree_pg_data_backups:/backups
+      - ./scripts/postgres:/scripts
+    ports:
+      - "5435:5435"
+
+  humantree_redis:
+    image: redis:6.2-alpine
+    hostname: redis
+    restart: always
+    container_name: humantree_redis
+    command:
+      - 'redis-server'
+      - '--requirepass myStrongPassword'
+    volumes:
+      - redis_cache:/data
+    ports:
+      - 6380:6380
+volumes:
+  humantree_pg_data:
+    driver: "local"
+  humantree_pg_data_backups:
+    driver: "local"
+    driver_opts:
+      type: "none"
+      device: "./backups"
+      o: "bind"
+  redis_cache:
+    driver: "local"
+
+networks:
+  default:
+    external: true
+    name: humantree_main
